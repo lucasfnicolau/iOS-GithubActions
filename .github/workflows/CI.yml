@@ -25,7 +25,8 @@ jobs:
         xcodebuild build \
         -scheme iOS-GithubActions \
         -destination 'platform=iOS Simulator,name=iPhone 12 Pro' \
-        |
+        | xcpretty
+
   test:
     name: Test Project
     runs-on: macOS-latest
