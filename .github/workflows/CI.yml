@@ -25,4 +25,27 @@ jobs:
         xcodebuild build \
         -scheme iOS-GithubActions \
         -destination 'platform=iOS Simulator,name=iPhone 12 Pro' \
+        |
+  test:
+    name: Test Project
+    runs-on: macOS-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+
+    - name: Set Gems
+      run: |
+        gem install bundler
+        bundle install
+    - name: Set Xcode version
+      uses: maxim-lobanov/setup-xcode@v1.1
+      with:
+        xcode-version: 12.3
+
+    - name: Test
+      run: |
+        set -o pipefail
+        xcodebuild test \
+        -scheme iOS-GithubActions \
+        -destination 'platform=iOS Simulator,name=iPhone 12 Pro' \
         | xcpretty
