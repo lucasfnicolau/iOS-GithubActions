@@ -22,13 +22,15 @@ jobs:
     - name: Build
       run: |
         set -o pipefail
-        xcodebuild build \
-        -scheme iOS-GithubActions \
-        -destination 'platform=iOS Simulator,name=iPhone 12 Pro' \
+        xcodebuild build-for-testing \
+        -scheme iOSGitHubActions \
+        -destination 'platform=iOS Simulator,name=iPhone 11 Pro' \
+        -derivedDataPath build \
         | xcpretty
 
   test:
     name: Test Project
+    needs: build
     runs-on: macOS-latest
     steps:
     - name: Checkout repository
@@ -46,7 +48,8 @@ jobs:
     - name: Test
       run: |
         set -o pipefail
-        xcodebuild test \
-        -scheme iOS-GithubActions \
-        -destination 'platform=iOS Simulator,name=iPhone 12 Pro' \
+        xcodebuild test-without-building \
+        -scheme iOSGitHubActions \
+        -destination 'platform=iOS Simulator,name=iPhone 11 Pro' \
+        -derivedDataPath build \
         | xcpretty
